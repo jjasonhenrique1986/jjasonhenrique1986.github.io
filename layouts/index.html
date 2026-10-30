@@ -1,5 +1,8 @@
 {{ define "main" }}
 <section class="home-about home-hero">
+    {{ with .Site.Params.avatarURL }}
+    <img class="home-photo" src="{{ . | relURL }}" alt="{{ $.Site.Params.AvatarAltText | default "avatar" }}" width="144" height="144">
+    {{ end }}
     <h1>{{ .Site.Title }}</h1>
     {{ if isset .Site.Params "description" }}
         <p class="home-tagline">{{ .Site.Params.Description }}</p>
@@ -26,11 +29,25 @@
 </div>
 {{ end }}
 
+{{ $posts := where .Site.Pages "Params.type" "post" }}
+
+{{/* Posts com "featured: true" no front matter */}}
+{{ $featured := where $posts "Params.featured" true }}
+{{ with $featured }}
+<section class="home-posts home-featured">
+    <h2 class="home-posts-title">★ Em destaque</h2>
+    <div class="post-cards">
+        {{ range .ByDate.Reverse }}
+            {{ partial "post-card.html" . }}
+        {{ end }}
+    </div>
+</section>
+{{ end }}
+
 {{ if isset .Site.Params "showpostsonhomepage" }}
 <section class="home-posts">
     <h2 class="home-posts-title">{{ i18n (.Site.Params.ShowPostsOnHomePage | humanize) }}</h2>
 
-    {{ $posts := where .Site.Pages "Params.type" "post" }}
     {{ $n := or .Site.Params.NumberPostsOnHomePage 4 }}
     {{ if eq .Site.Params.ShowPostsOnHomePage "popular" }}
         {{ $posts = $posts.ByWeight | first $n }}
@@ -40,23 +57,7 @@
 
     <div class="post-cards">
         {{ range $posts }}
-        <article class="post-card">
-            <a href="{{ .Permalink }}" class="post-card-link">
-                <span class="post-card-meta">
-                    {{ dateFormat (or .Site.Params.dateFormat "January 2, 2006") .Date }}
-                    {{ if .Site.Params.DisplayReadingTime }} · {{ .ReadingTime }} min de leitura{{ end }}
-                </span>
-                <h3 class="post-card-title">{{ .Title | markdownify }}</h3>
-                {{ with .Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
-            </a>
-            {{ with .Params.tags }}
-            <ul class="post-card-tags">
-                {{ range first 3 . }}
-                <li><a href="{{ "/tags/" | relURL }}{{ . | urlize }}/">#{{ . }}</a></li>
-                {{ end }}
-            </ul>
-            {{ end }}
-        </article>
+            {{ partial "post-card.html" . }}
         {{ end }}
     </div>
 
