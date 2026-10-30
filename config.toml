@@ -1,4 +1,5 @@
-baseURL = 'https://blog.jjasonhenrique.com.br'
+# Domínio padrão do GitHub enquanto blog.jjasonhenrique.com.br está bloqueado
+baseURL = 'https://jjasonhenrique1986.github.io/'
 languageCode = 'pt-BR'
 defaultContentLanguage = 'pt'
 title = 'Jason Henrique'
@@ -20,7 +21,7 @@ author = "Jason Henrique Martins Rodrigues"
   metaKeywords = ["DevOps", "AWS", "Kubernetes", "Terraform", "Cloud"]
 
   socialIcons = [
-    {name = "github", url = "https://github.com/jjasonhenrique"},
+    {name = "github", url = "https://github.com/jjasonhenrique1986"},
     {name = "linkedin", url = "https://www.linkedin.com/in/jasonhenrique/"},
   ]
 
@@ -36,7 +37,7 @@ author = "Jason Henrique Martins Rodrigues"
 
 [[menu.main]]
   name       = "Projects"
-  url        = "https://github.com/jjasonhenrique?tab=repositories"
+  url        = "https://github.com/jjasonhenrique1986?tab=repositories"
   weight     = 3
 
 [[menu.main]]
