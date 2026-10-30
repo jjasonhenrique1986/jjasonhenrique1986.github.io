@@ -10,6 +10,6 @@ Sou formado em Tecnólogo em Redes de Computadores e pós-graduado em **DevOps**
 - CKA (Certified Kubernetes Administrator)
 - LPI 1 (expirada, mas ainda conta! 😆)
 
-Neste blog, compartilho insights e aprendizados sobre AWS, Kubernetes, infraestrutura e práticas DevOps, visando contribuir para a comunidade que tanto me ajudou a ser o profissinal que sou hoje.
+Neste blog, compartilho insights e aprendizados sobre AWS, Kubernetes, infraestrutura e práticas DevOps, visando contribuir para a comunidade que tanto me ajudou a ser o profissional que sou hoje.
 
 Se você é entusiasta de tecnologia e deseja discutir sobre infraestrutura em nuvem e outros assuntos relacionados as práticas DevOps, sinta-se à vontade para acompanhar meus posts.
