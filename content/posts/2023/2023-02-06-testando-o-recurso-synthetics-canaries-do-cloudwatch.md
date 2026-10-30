@@ -1,10 +1,11 @@
 ---
 title: "Testando o recurso Synthetics Canaries do Cloudwatch"
+description: "Como criar um Synthetics Canary no CloudWatch para checar periodicamente se uma URL ou API está respondendo com sucesso."
+image: "/images/synthetic.jpg"
 author: Jason
 date: 2023-02-06
 tags: [ "Cloud", "AWS", "Observability" ]
 type: post
-weight: 9
 showTableOfContents: true
 ---
 

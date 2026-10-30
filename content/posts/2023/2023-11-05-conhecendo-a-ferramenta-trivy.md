@@ -1,10 +1,11 @@
 ---
 title: Conhecendo a ferramenta trivy
+description: "Conheça o Trivy, scanner de segurança da Aqua Security e tópico cobrado no exame CKS (Certified Kubernetes Security Specialist)."
+image: "/images/trivy.jpg"
 author: Jason
 date: 2023-11-05
 tags: [ "Kubernetes", "Security", "Containers", "CI/CD" ]
 type: post
-weight: 13
 showTableOfContents: true
 ---
 

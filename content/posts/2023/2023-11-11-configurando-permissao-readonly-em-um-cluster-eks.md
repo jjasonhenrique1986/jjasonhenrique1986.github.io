@@ -1,10 +1,11 @@
 ---
 title: "Configurando permissão somente leitura em um cluster EKS"
+description: "Como configurar uma role da AWS com permissão somente leitura em um cluster EKS usando o kubectl."
+image: "/images/eks.jpg"
 author: Jason
 date: 2023-11-11
 tags: [ "Kubernetes", "Cloud", "AWS", "Containers", "EKS" ]
 type: post
-weight: 14
 showTableOfContents: true
 ---
 

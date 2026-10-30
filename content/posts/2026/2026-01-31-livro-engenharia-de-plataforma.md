@@ -1,10 +1,11 @@
 ---
-title: "Resenha do livro Engeharia de Plataforma"
+title: "Resenha do livro Engenharia de Plataforma"
+description: "Resenha do livro Engenharia de Plataforma: por que tratar a plataforma interna como um produto e os principais aprendizados."
+image: "/images/eng-plataforma.jpg"
 author: Jason
 date: 2026-01-31
-tags: [ "Cloud", "AWS", "Security" ]
+tags: [ "Engenharia de Plataforma", "DevOps", "Livros" ]
 type: post
-weight: 31
 showTableOfContents: true
 ---
 

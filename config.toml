@@ -1,25 +1,27 @@
-baseURL = 'https://blog.jjasonhenrique.com.br'
+# Domínio padrão do GitHub enquanto blog.jjasonhenrique.com.br está bloqueado
+baseURL = 'https://jjasonhenrique1986.github.io/'
 languageCode = 'pt-BR'
+defaultContentLanguage = 'pt'
 title = 'Jason Henrique'
 theme = 'gokarna'
+enableRobotsTXT = true
 
 author = "Jason Henrique Martins Rodrigues"
 
 [params]
   description = "Um blog onde compartilho sobre tecnologia principalmente sobre kubernetes e AWS."
-  showPostsOnHomePage = 4
-  logo = "/images/logo.jpg"
+  avatarURL = "/images/logo.jpg"
+  avatarAltText = "Jason Henrique"
+  accentColor = "#3498db"
+  showPostsOnHomePage = "recent"
   numberPostsOnHomePage = 8
-  primaryColor = "#3498db"
-  secondaryColor = "#000034"
-  enableSidebar = true
-  darkMode = true
-  paginate = 5
   togglePreviousAndNextButtons = true
   displayReadingTime = true
-   
+  dateFormat = "2 de January de 2006"
+  metaKeywords = ["DevOps", "AWS", "Kubernetes", "Terraform", "Cloud"]
+
   socialIcons = [
-    {name = "github", url = "https://github.com/jjasonhenrique"},
+    {name = "github", url = "https://github.com/jjasonhenrique1986"},
     {name = "linkedin", url = "https://www.linkedin.com/in/jasonhenrique/"},
   ]
 
@@ -35,17 +37,10 @@ author = "Jason Henrique Martins Rodrigues"
 
 [[menu.main]]
   name       = "Projects"
-  url        = "https://github.com/jjasonhenrique?tab=repositories"
+  url        = "https://github.com/jjasonhenrique1986?tab=repositories"
   weight     = 3
 
 [[menu.main]]
   name       = "Certifications"
   url        = "https://www.credly.com/users/jason-henrique/"
   weight     = 4
-
-
-
-
-
-
-

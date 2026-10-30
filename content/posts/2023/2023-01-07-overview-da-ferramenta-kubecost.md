@@ -1,10 +1,11 @@
 ---
 title: "Overview da ferramenta kubecost"
+description: "Um overview da console do Kubecost para monitorar e gerenciar o custo do Kubernetes e do cloud provider (AWS, Azure e GCP)."
+image: "/images/kubecost.jpg"
 author: Jason
 date: 2023-01-07
 tags: [ "Cloud", "AWS", "FinOps", "Kubernetes" ]
 type: post
-weight: 5
 showTableOfContents: true
 ---
 

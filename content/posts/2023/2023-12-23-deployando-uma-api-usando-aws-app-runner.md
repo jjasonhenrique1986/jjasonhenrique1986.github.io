@@ -1,10 +1,11 @@
 ---
 title: "Deployando uma API usando AWS App Runner"
+description: "Segundo artigo sobre o AWS App Runner: deploy de uma API Hello World feita com FastAPI."
+image: "/images/apprunner.jpg"
 author: Jason
 date: 2023-12-23
 tags: [ "Cloud", "AWS", "Containers" ]
 type: post
-weight: 19
 showTableOfContents: true
 ---
 

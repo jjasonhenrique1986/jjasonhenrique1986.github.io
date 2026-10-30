@@ -1,14 +1,15 @@
 ---
 title: Gerenciando acesso no Kubernetes com RBAC 
+description: "Como gerenciar o controle de acesso no Kubernetes com RBAC: Roles, ClusterRoles e seus bindings."
+image: "/images/kubernetes.jpg"
 author: Jason
 date: 2024-11-15
 tags: [ "Kubernetes", "Security", "Containers" ]
 type: post
-weight: 30
 showTableOfContents: true
 ---
 
-![kubernetes](images/kubernetes.jpg)
+![kubernetes](/images/kubernetes.jpg)
 
 No Kubernetes, a segurança e o controle de acesso são aspectos críticos
 para garantir que apenas as pessoas e processos corretos tenham as

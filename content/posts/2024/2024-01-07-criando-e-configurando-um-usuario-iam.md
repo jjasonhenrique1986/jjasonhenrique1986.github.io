@@ -1,10 +1,11 @@
 ---
 title: "Criando e Configurando um usuário IAM"
+description: "Tutorial para criar e configurar um usuário IAM com Access Key e Secret Access Key e instalar o AWS CLI."
+image: "/images/iam.jpg"
 author: Jason
 date: 2024-01-07
 tags: [ "Cloud", "AWS", "Security" ]
 type: post
-weight: 21
 showTableOfContents: true
 ---
 

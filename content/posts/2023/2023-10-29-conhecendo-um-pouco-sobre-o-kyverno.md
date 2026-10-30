@@ -1,10 +1,11 @@
 ---
 title: "Conhecendo um pouco sobre o kyverno"
+description: "Introdução ao Kyverno, dynamic admission controller do Kubernetes: instalação e criação de uma policy do tipo validation."
+image: "/images/kyverno.jpg"
 author: Jason
 date: 2023-10-29
 tags: [ "Kubernetes", "Security", "Containers" ]
 type: post
-weight: 11
 showTableOfContents: true
 ---
 

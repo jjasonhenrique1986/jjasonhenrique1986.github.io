@@ -1,10 +1,11 @@
 ---
 title: "Minha Jornada para certificação AWS Solutions Architect"
+description: "Como me preparei em 1 mês para a certificação AWS Certified Solutions Architect Associate (SAA-C03) e os materiais que usei."
+image: "/images/saa.jpg"
 author: Jason
 date: 2023-12-25
 tags: [ "Cloud", "AWS", "Certificações" ]
 type: post
-weight: 20
 showTableOfContents: true
 ---
 

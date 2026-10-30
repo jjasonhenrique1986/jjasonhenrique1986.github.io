@@ -1,10 +1,11 @@
 ---
 title: "Instalando a ferramenta kubecost"
+description: "Passo a passo da instalação do Kubecost, ferramenta de monitoramento e gerenciamento de custos para Kubernetes e cloud."
+image: "/images/kubecost.jpg"
 author: Jason
 date: 2023-01-04
 tags: [ "Cloud", "AWS", "FinOps", "Kubernetes" ]
 type: post
-weight: 4
 showTableOfContents: true
 ---
 

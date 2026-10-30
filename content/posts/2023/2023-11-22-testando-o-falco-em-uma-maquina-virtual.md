@@ -1,10 +1,11 @@
 ---
 title: "Testando o falco em uma máquina virtual"
+description: "Segundo artigo sobre o Falco: instalação em uma máquina virtual na AWS e alteração do output de uma regra."
+image: "/images/falco.jpg"
 author: Jason
 date: 2023-11-22
 tags: [ "Kubernetes", "Security", "Containers", "AWS" ]
 type: post
-weight: 17
 showTableOfContents: true
 ---
 

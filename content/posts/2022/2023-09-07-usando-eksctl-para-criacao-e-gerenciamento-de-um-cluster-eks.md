@@ -1,10 +1,11 @@
 ---
 title: "Usando eksctl para criação e gerenciamento de um cluster EKS"
+description: "Como usar o eksctl, ferramenta de linha de comando da Weaveworks, para criar e gerenciar um cluster Amazon EKS."
+image: "/images/eksctl.jpg"
 author: Jason
 date: 2022-09-07
-tags: [ "cloud", "AWS", "EKS", "Kubernetes" ]
+tags: [ "Cloud", "AWS", "EKS", "Kubernetes" ]
 type: post
-weight: 2
 showTableOfContents: true
 ---
 ![eksctl](/images/eksctl.jpg)
