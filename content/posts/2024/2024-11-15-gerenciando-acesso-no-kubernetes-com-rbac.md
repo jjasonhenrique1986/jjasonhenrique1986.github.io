@@ -7,6 +7,7 @@ date: 2024-11-15
 tags: [ "Kubernetes", "Security", "Containers" ]
 type: post
 showTableOfContents: true
+featured: true
 ---
 
 ![kubernetes](/images/kubernetes.jpg)

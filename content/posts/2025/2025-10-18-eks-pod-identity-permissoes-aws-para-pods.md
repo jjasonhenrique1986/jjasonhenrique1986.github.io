@@ -7,6 +7,7 @@ date: 2025-10-18
 tags: [ "Cloud", "AWS", "EKS", "Kubernetes", "Security" ]
 type: post
 showTableOfContents: true
+featured: true
 ---
 
 ![eks](/images/eks.jpg)

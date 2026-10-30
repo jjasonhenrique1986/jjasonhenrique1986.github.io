@@ -10,7 +10,7 @@ author = "Jason Henrique Martins Rodrigues"
 
 [params]
   description = "Um blog onde compartilho sobre tecnologia principalmente sobre kubernetes e AWS."
-  avatarURL = "/images/logo.jpg"
+  avatarURL = "/images/jason.jpg"
   avatarAltText = "Jason Henrique"
   accentColor = "#3498db"
   showPostsOnHomePage = "recent"
