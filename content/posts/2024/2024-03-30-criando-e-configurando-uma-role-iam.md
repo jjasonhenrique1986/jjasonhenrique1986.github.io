@@ -1,10 +1,11 @@
 ---
 title: "Criando e Configurando uma role IAM"
+description: "Tutorial para criar e configurar uma role IAM na AWS, uma forma mais segura de acesso do que usar um usuário IAM."
+image: "/images/iam.jpg"
 author: Jason
 date: 2024-03-30
 tags: [ "Cloud", "AWS", "Security" ]
 type: post
-weight: 23
 showTableOfContents: true
 ---
 

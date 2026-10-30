@@ -1,10 +1,11 @@
 ---
 title: "Gerenciamento de Infraestrutura com GitOps e ArgoCD"
+description: "Tutorial de GitOps: instalando o ArgoCD em um cluster Kubernetes com kind e fazendo o deploy de uma aplicação nginx."
+image: "/images/argo.jpg"
 author: Jason
 date: 2024-06-09
-tags: [ "Containers", "kubernetes", "GitOps", "IaC" ]
+tags: [ "Containers", "Kubernetes", "GitOps", "IaC" ]
 type: post
-weight: 26
 showTableOfContents: true
 ---
 

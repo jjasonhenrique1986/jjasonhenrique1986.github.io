@@ -1,10 +1,11 @@
 ---
 title: "Configuração de Remote Terraform State com Bucket S3 na AWS"
+description: "Como configurar o Terraform state remoto em um bucket S3 na AWS em vez de mantê-lo localmente."
+image: "/images/terraform.jpg"
 author: Jason
 date: 2024-08-11
 tags: [ "IaC", "Cloud", "AWS", "S3" ]
 type: post
-weight: 27
 showTableOfContents: true
 ---
 

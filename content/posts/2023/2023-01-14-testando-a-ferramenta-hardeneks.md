@@ -1,10 +1,11 @@
 ---
 title: "Testando a ferramenta HardenEKS"
+description: "Testando o HardenEKS, ferramenta de linha de comando que verifica um cluster Kubernetes com base no guia de boas práticas de EKS da AWS."
+image: "/images/hardeneks.jpg"
 author: Jason
 date: 2023-01-14
 tags: [ "AWS", "Kubernetes", "EKS", "Containers" ]
 type: post
-weight: 7
 showTableOfContents: true
 ---
 

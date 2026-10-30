@@ -1,10 +1,11 @@
 ---
 title: "Descobrindo meus pontos fortes e como eles me ajudam na minha carreira em Tecnologia"
+description: "O que aprendi com o teste CliftonStrengths do Gallup e como meus pontos fortes me ajudam na carreira como DevOps Engineer."
+image: "/images/pontos_fortes.jpg"
 author: Jason
 date: 2025-06-05
 tags: ["DevOps", "Carreira", "Gallup", "Autoconhecimento"]
 type: post
-weight: 31
 showTableOfContents: true
 ---
 ![talentos](/images/pontos_fortes.jpg)

@@ -1,10 +1,11 @@
 ---
 title: "Guia Prático: Configurando Taint, Toleration e NodeAffinity no Kubernetes"
+description: "Guia prático de Taint, Toleration e NodeAffinity para controlar em quais nós os pods executam no Kubernetes, usando o kind."
+image: "/images/kubernetes.jpg"
 author: Jason
 date: 2024-05-31
-tags: [ "Containers", "Cubernetes", "EKS", "Cloud" ]
+tags: [ "Containers", "Kubernetes", "EKS", "Cloud" ]
 type: post
-weight: 25
 showTableOfContents: true
 ---
 

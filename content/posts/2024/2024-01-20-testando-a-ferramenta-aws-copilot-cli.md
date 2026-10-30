@@ -1,10 +1,11 @@
 ---
 title: "Testando a ferramenta AWS Copilot CLI"
+description: "Testando o AWS Copilot CLI para criar de forma simplificada uma aplicação conteinerizada executando no ECS."
+image: "/images/copilot.jpg"
 author: Jason
 date: 2024-01-20
 tags: [ "Cloud", "AWS", "Containers", "ECS" ]
 type: post
-weight: 22
 showTableOfContents: true
 ---
 

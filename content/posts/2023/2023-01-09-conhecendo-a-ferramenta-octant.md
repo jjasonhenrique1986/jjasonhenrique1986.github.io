@@ -1,10 +1,11 @@
 ---
 title: "Conhecendo a ferramenta Octant"
+description: "Conheça o Octant, projeto open source que permite visualizar e gerenciar um cluster Kubernetes por interface gráfica."
+image: "/images/octant.jpg"
 author: Jason
 date: 2023-01-09
 tags: [ "Kubernetes", "Observability", "Containers" ]
 type: post
-weight: 6
 showTableOfContents: true
 ---
 
