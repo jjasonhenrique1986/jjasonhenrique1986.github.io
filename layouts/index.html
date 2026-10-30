@@ -1,0 +1,66 @@
+{{ define "main" }}
+<section class="home-about home-hero">
+    <h1>{{ .Site.Title }}</h1>
+    {{ if isset .Site.Params "description" }}
+        <p class="home-tagline">{{ .Site.Params.Description }}</p>
+    {{ end }}
+
+    {{ if isset .Site.Params "socialicons" }}
+    <div class="gk-social-icons">
+        <ul class="gk-social-icons-list">
+            {{ range .Site.Params.SocialIcons }}
+            <li class="gk-social-icon">
+                <a href="{{ .url }}" {{ if .rel }}rel="{{ .rel }}"{{ end }} aria-label="{{ .name }}">
+                    <img class="svg-inject" src="{{ relURL "svg/icons/" }}{{ .name | lower }}.svg" alt="">
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ end }}
+</section>
+
+{{ if os.FileExists "index-about.md" }}
+<div class="markdown-content home-intro">
+    {{ readFile "index-about.md" | markdownify }}
+</div>
+{{ end }}
+
+{{ if isset .Site.Params "showpostsonhomepage" }}
+<section class="home-posts">
+    <h2 class="home-posts-title">{{ i18n (.Site.Params.ShowPostsOnHomePage | humanize) }}</h2>
+
+    {{ $posts := where .Site.Pages "Params.type" "post" }}
+    {{ $n := or .Site.Params.NumberPostsOnHomePage 4 }}
+    {{ if eq .Site.Params.ShowPostsOnHomePage "popular" }}
+        {{ $posts = $posts.ByWeight | first $n }}
+    {{ else }}
+        {{ $posts = $posts.ByDate.Reverse | first $n }}
+    {{ end }}
+
+    <div class="post-cards">
+        {{ range $posts }}
+        <article class="post-card">
+            <a href="{{ .Permalink }}" class="post-card-link">
+                <span class="post-card-meta">
+                    {{ dateFormat (or .Site.Params.dateFormat "January 2, 2006") .Date }}
+                    {{ if .Site.Params.DisplayReadingTime }} · {{ .ReadingTime }} min de leitura{{ end }}
+                </span>
+                <h3 class="post-card-title">{{ .Title | markdownify }}</h3>
+                {{ with .Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
+            </a>
+            {{ with .Params.tags }}
+            <ul class="post-card-tags">
+                {{ range first 3 . }}
+                <li><a href="{{ "/tags/" | relURL }}{{ . | urlize }}/">#{{ . }}</a></li>
+                {{ end }}
+            </ul>
+            {{ end }}
+        </article>
+        {{ end }}
+    </div>
+
+    <p class="home-posts-more"><a href="{{ "/posts/" | relURL }}">Ver todos os posts →</a></p>
+</section>
+{{ end }}
+{{ end }}

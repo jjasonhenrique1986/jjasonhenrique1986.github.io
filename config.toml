@@ -19,6 +19,7 @@ author = "Jason Henrique Martins Rodrigues"
   displayReadingTime = true
   dateFormat = "2 de January de 2006"
   metaKeywords = ["DevOps", "AWS", "Kubernetes", "Terraform", "Cloud"]
+  customHeadHTML = '<link rel="stylesheet" href="/css/custom.css">'
 
   socialIcons = [
     {name = "github", url = "https://github.com/jjasonhenrique1986"},
