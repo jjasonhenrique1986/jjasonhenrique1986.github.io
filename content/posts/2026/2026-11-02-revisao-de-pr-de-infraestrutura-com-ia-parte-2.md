@@ -12,7 +12,8 @@ draft: false
 Na [parte 1](/posts/2026/2026-11-01-revisao-de-pr-de-infraestrutura-com-ia-parte-1/)
 montamos a arquitetura e a role IAM. Agora vamos ao script que conversa com o
 modelo. O arquivo completo é o
-[reviewer/review.py](https://github.com/jjasonhenrique1986/iac-ai-reviewer/blob/main/reviewer/review.py).
+[reviewer/review.py](https://github.com/jjasonhenrique1986/github-actions/blob/main/iac-ai-review/reviewer/review.py),
+que fica dentro da pasta da action.
 
 ## Dependências
 
@@ -210,6 +211,7 @@ O cliente aponta para ele com `base_url` e `skip_auth=True`. Assim dá para
 testar o parse da resposta e o fallback de recusa sem credenciais e sem custo:
 
 ```bash
+cd iac-ai-review
 pip install -r requirements-dev.txt
 pytest
 ```
@@ -225,7 +227,7 @@ $ pytest -q
 
 ## Próximo passo
 
-Na **parte 3** juntamos tudo num workflow do GitHub Actions e falamos dos
+Na **parte 3** empacotamos tudo numa action do GitHub e falamos dos
 cuidados de segurança: forks, prompt injection e custo.
 
 ## Referências

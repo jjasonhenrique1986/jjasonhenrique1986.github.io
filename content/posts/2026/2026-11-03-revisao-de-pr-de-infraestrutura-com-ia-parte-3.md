@@ -1,6 +1,6 @@
 ---
-title: "Revisão de PR de infraestrutura com IA, parte 3: o workflow e a segurança"
-description: "Última parte da série: o workflow do GitHub Actions que roda o checkov, chama a IA no Amazon Bedrock e comenta no Pull Request, o resultado num PR real e os cuidados com forks, prompt injection e custo."
+title: "Revisão de PR de infraestrutura com IA, parte 3: a action e a segurança"
+description: "Última parte da série: a action reutilizável do GitHub que roda o checkov, chama a IA no Amazon Bedrock e comenta no Pull Request, o resultado num PR real e os cuidados com forks, prompt injection e custo."
 author: Jason
 date: 2026-11-03
 tags: [ "AWS", "CI/CD", "IA", "Security" ]
@@ -11,26 +11,29 @@ draft: false
 
 Nas partes [1](/posts/2026/2026-11-01-revisao-de-pr-de-infraestrutura-com-ia-parte-1/)
 e [2](/posts/2026/2026-11-02-revisao-de-pr-de-infraestrutura-com-ia-parte-2/)
-criamos a role IAM e o script. Agora vamos colocar tudo para rodar a cada Pull
-Request.
+criamos a role IAM e o script. Agora vamos empacotar tudo numa action do GitHub
+e colocar para rodar a cada Pull Request.
 
-## O workflow
+## A action
 
-Arquivo `.github/workflows/ai-review.yml`:
+Em vez de copiar o script e os passos do workflow para cada repositório, o
+revisor virou uma **action composite** no repositório
+[github-actions](https://github.com/jjasonhenrique1986/github-actions). O código
+Python, os testes e os exemplos ficam na mesma pasta da action, então a versão
+da action (`@v1`) define exatamente o código que roda.
+
+No repositório que vai ser revisado, o workflow fica assim
+(`.github/workflows/ai-review.yml`):
 
 ```yaml
 name: Revisão de IaC com IA
 
 on:
   pull_request:
-    paths:
-      - "**.tf"
-      - "**.tfvars"
-      - "**.yaml"
-      - "**.yml"
+    paths: ["**.tf", "**.tfvars", "**.yaml", "**.yml"]
 
 permissions:
-  id-token: write       # pedir o token OIDC para assumir a role na AWS
+  id-token: write       # token OIDC para assumir a role na AWS
   contents: read
   pull-requests: write  # comentar no PR
 
@@ -40,7 +43,7 @@ concurrency:
 
 jobs:
   review:
-    # PRs de forks não recebem o token OIDC, então o job só roda para branches do próprio repositório
+    # PRs de forks não recebem o token OIDC
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -48,53 +51,82 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-
-      - name: Instalar dependências
-        run: pip install -r reviewer/requirements.txt checkov
-
-      - name: Rodar o checkov
-        run: checkov -d . --framework terraform kubernetes --compact --quiet --soft-fail > checkov.txt
-
-      - name: Configurar credenciais da AWS
-        uses: aws-actions/configure-aws-credentials@v6
+      - uses: jjasonhenrique1986/github-actions/iac-ai-review@v1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          mask-aws-account-id: true
-          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
-
-      - name: Revisar com IA
-        env:
-          MODEL_ID: ${{ vars.MODEL_ID }}
-        run: python reviewer/review.py --base origin/${{ github.base_ref }} --checkov checkov.txt --output review.md
-
-      - name: Comentar no PR
-        uses: marocchino/sticky-pull-request-comment@v3.0.5
-        with:
-          header: ai-iac-review
-          path: review.md
+          model-id: ${{ vars.MODEL_ID }}
 ```
 
 Pontos importantes:
 
 - **`fetch-depth: 0`**: sem o histórico completo, o `git diff` contra a branch
-  base não funciona.
-- **`--soft-fail` no checkov**: a ideia é passar os achados para o modelo, não
-  quebrar o job. Se quiser que o checkov bloqueie o merge, rode-o num job separado.
+  base não funciona. A action confere isso e falha com uma mensagem clara.
 - **`concurrency`**: se você fizer vários pushes seguidos, só a última execução
   continua. Isso economiza chamadas ao modelo.
-- **Comentário fixo**: a action `sticky-pull-request-comment` atualiza o mesmo
-  comentário a cada push, em vez de encher o PR de comentários.
 - **`MODEL_ID`**: variável do repositório que escolhe o modelo. Sem ela, o
   padrão é o `anthropic.claude-opus-5-5`. Nos meus testes ela está como
   `openai.gpt-oss-120b-1:0`, porque a cota do Claude na minha conta ainda está
   zerada (veja a [parte 1](/posts/2026/2026-11-01-revisao-de-pr-de-infraestrutura-com-ia-parte-1/)).
 - **Nenhuma access key**: o único secret é o `AWS_ROLE_ARN`, e ele não é uma
   credencial. Fica como secret só para o ID da conta não aparecer no repositório
-  nem nos logs. O `mask-aws-account-id` também esconde o ID da conta nos logs.
+  nem nos logs. A action também mascara o ID da conta.
+- **Uma role por repositório**: cada repositório que usa a action tem a sua
+  própria role, presa ao `sub` dele, como na parte 1.
+
+### Por dentro da action
+
+O `action.yml` encadeia os mesmos passos que antes ficavam no workflow. Dois
+detalhes valem destaque. O primeiro: antes de tocar na AWS, a action procura
+mudanças de infraestrutura com os mesmos padrões do script:
+
+```yaml
+- name: Detectar mudanças de infraestrutura
+  id: changes
+  shell: bash
+  env:
+    BASE: ${{ steps.context.outputs.base }}
+  run: |
+    files="$(git diff --name-only "$BASE...HEAD" -- '*.tf' '*.tfvars' '*.yaml' '*.yml')"
+    if [ -n "$files" ]; then
+      echo "has-changes=true" >> "$GITHUB_OUTPUT"
+    else
+      echo "has-changes=false" >> "$GITHUB_OUTPUT"
+    fi
+```
+
+O checkov e as credenciais só rodam com `has-changes == 'true'`. Num PR que só
+mexe em documentação, a action não assume a role, não chama o modelo e só
+comenta que não há nada para revisar.
+
+O segundo: o script roda da pasta da própria action (`github.action_path`), não
+do repositório revisado. Assim o código do revisor não entra no diff nem no
+checkov de quem usa a action:
+
+```yaml
+- name: Revisar com IA
+  id: review
+  shell: bash
+  env:
+    DIR: ${{ github.action_path }}
+    BASE: ${{ steps.context.outputs.base }}
+    MODEL_ID: ${{ inputs.model-id }}
+    AWS_REGION: ${{ inputs.aws-region }}
+  run: |
+    out="$RUNNER_TEMP/review.md"
+    "$RUNNER_TEMP/venv-reviewer/bin/python" "$DIR/reviewer/review.py" \
+      --base "$BASE" --checkov "$RUNNER_TEMP/checkov.txt" --output "$out"
+    echo "review-file=$out" >> "$GITHUB_OUTPUT"
+```
+
+Os outros passos são o `setup-python`, um venv para o revisor, outro para o
+checkov (instalados juntos, o checkov rebaixou o `boto3` num teste meu), o
+`configure-aws-credentials` e o `sticky-pull-request-comment`, que atualiza o
+mesmo comentário a cada push em vez de encher o PR de comentários. O checkov roda
+com `--soft-fail`: a ideia é passar os achados para o modelo, não quebrar o job.
+
+A action também é testada no próprio repositório: `actionlint`, `pytest`, um job
+que confere que um PR sem infraestrutura não pega credenciais e um job que revisa
+um Terraform com SSH aberto chamando o modelo de verdade.
 
 ## Segurança
 
@@ -145,7 +177,7 @@ Acompanhe o gasto no **AWS Cost Explorer** filtrando pelo serviço Bedrock.
 
 ## Testando
 
-O repositório tem exemplos **propositalmente inseguros** em `examples/`. Não
+A pasta da action tem exemplos **propositalmente inseguros** em `examples/`. Não
 aplique nenhum deles numa conta ou num cluster de verdade:
 
 | Arquivo | Problemas |
@@ -165,7 +197,7 @@ aplique nenhum deles numa conta ou num cluster de verdade:
 
 Os exemplos novos entraram no
 [PR #4](https://github.com/jjasonhenrique1986/iac-ai-reviewer/pull/4) do
-repositório. O workflow rodou com o `openai.gpt-oss-120b-1:0` e publicou um
+repositório original do projeto, antes de ele virar a action. O workflow rodou com o `openai.gpt-oss-120b-1:0` e publicou um
 comentário com risco geral **alto** e 12 achados. Um trecho:
 
 > **Risco geral:** 🔴 alto
@@ -207,8 +239,8 @@ quem chega nele ainda precisa se autenticar no IAM e ter permissão no RBAC do
 cluster. É por isso que o rodapé de todo comentário diz que a IA é apoio, não
 aprovação.
 
-Para testar no seu repositório, crie uma branch, altere ou copie um desses
-arquivos e abra um PR.
+Para testar no seu repositório, configure a action, copie um desses arquivos e
+abra um PR.
 
 Se o seu manifest tem problemas de probes, o post
 [Kubernetes: configurando liveness, readiness e startup probes](/posts/2025/2025-02-15-kubernetes-configurando-liveness-readiness-e-startup-probes/)
@@ -216,15 +248,16 @@ ajuda a corrigir.
 
 ## Conclusão
 
-Com um script em Python e um workflow, cada PR de
+Com um script em Python empacotado numa action, cada PR de
 infraestrutura ganha uma segunda leitura que explica os riscos em linguagem
 simples, sem nenhuma credencial fixa e sem dar à IA o poder de aprovar nada.
 
-O código completo está no repositório
-[iac-ai-reviewer](https://github.com/jjasonhenrique1986/iac-ai-reviewer).
+O código completo, com a documentação da action, está em
+[github-actions/iac-ai-review](https://github.com/jjasonhenrique1986/github-actions/tree/main/iac-ai-review).
 
 ## Referências
 
 - [Security hardening for GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions)
+- [Creating a composite action](https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action)
 - [checkov](https://www.checkov.io/)
 - [marocchino/sticky-pull-request-comment](https://github.com/marocchino/sticky-pull-request-comment)

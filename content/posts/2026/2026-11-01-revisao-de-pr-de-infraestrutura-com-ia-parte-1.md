@@ -22,10 +22,11 @@ A série tem três partes:
 
 1. **Arquitetura e acesso ao Bedrock** (este post)
 2. O script em Python que conversa com o modelo
-3. O workflow do GitHub Actions e os cuidados de segurança
+3. A action do GitHub e os cuidados de segurança
 
-O código completo está no repositório
-[iac-ai-reviewer](https://github.com/jjasonhenrique1986/iac-ai-reviewer).
+Tudo virou uma **action reutilizável**: para usar o revisor num repositório, basta
+criar um workflow que chama a action. O código completo está em
+[github-actions/iac-ai-review](https://github.com/jjasonhenrique1986/github-actions/tree/main/iac-ai-review).
 
 ## Como funciona
 
