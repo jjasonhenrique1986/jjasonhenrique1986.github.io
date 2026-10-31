@@ -1,5 +1,4 @@
-# Domínio padrão do GitHub enquanto blog.jjasonhenrique.com.br está bloqueado
-baseURL = 'https://jjasonhenrique1986.github.io/'
+baseURL = 'https://blog.jjasonhenrique.com.br/'
 languageCode = 'pt-BR'
 defaultContentLanguage = 'pt'
 title = 'Jason Henrique'
