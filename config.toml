@@ -18,6 +18,8 @@ author = "Jason Henrique Martins Rodrigues"
   displayReadingTime = true
   dateFormat = "2 de January de 2006"
   metaKeywords = ["DevOps", "AWS", "Kubernetes", "Terraform", "Cloud"]
+  # Nome de usuário no Buttondown (inscrição por e-mail no rodapé). Vazio esconde o formulário.
+  buttondownUser = "jjason.henrique"
   customHeadHTML = '''
     <link rel="stylesheet" href="/css/custom.css">
     <script data-goatcounter="https://jjasonhenrique.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
