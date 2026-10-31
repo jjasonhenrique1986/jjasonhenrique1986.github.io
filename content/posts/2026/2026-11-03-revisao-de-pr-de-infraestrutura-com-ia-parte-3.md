@@ -161,31 +161,6 @@ O diff e a saída do checkov são enviados ao Bedrock, dentro da sua conta AWS.
 Mesmo assim, confira a política da sua empresa antes de usar em repositórios
 com dados sensíveis.
 
-### Alguém pode usar a minha conta AWS pela action?
-
-A action é pública, então essa pergunta é natural. A resposta é não, e por
-camadas:
-
-- **A action não carrega credencial nenhuma.** Quem usa a action passa a role
-  da **própria** conta no `role-to-assume`. O código ser público não expõe nada,
-  e secrets do GitHub não podem ser lidos de volta.
-- **A trust policy aceita um único repositório.** A role confere o `sub` do token
-  OIDC no formato imutável, com o ID do dono e o ID do repositório. Token de
-  qualquer outro repositório é recusado, mesmo que alguém recrie um repositório
-  com o mesmo nome. Saber o ARN da role não adianta nada sem esse token.
-- **PRs de forks não recebem o token OIDC**, e o `if` do job ainda pula esses
-  casos. Num repositório público, o GitHub também pede aprovação antes de rodar
-  workflows de quem contribui pela primeira vez.
-- **Quem sobra é quem tem acesso de escrita** ao seu repositório, porque pode
-  abrir PR de uma branch interna. Mesmo assim, a role só tem
-  `bedrock:InvokeModel` nos modelos liberados: não lê nem altera nenhum outro
-  recurso da conta. O pior caso é gastar chamadas de modelo.
-
-Para esse pior caso, vale um orçamento no **AWS Budgets** com alerta por e-mail.
-E quando um repositório deixa de usar a action, apague a role dele: role sem uso
-é só superfície de ataque. Foi o que fiz com a role do repositório original do
-projeto, depois de arquivá-lo.
-
 ## Custo
 
 O custo depende do tamanho do diff e do modelo. Algumas formas de controlar:
