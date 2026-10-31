@@ -3,6 +3,7 @@ title: "Acesso à AWS sem access keys com o IAM Identity Center"
 description: "Como trocar o usuário IAM com access key fixa pelo IAM Identity Center: Organizations, permission sets, MFA e login no AWS CLI com aws sso login."
 author: Jason
 date: 2026-10-31
+image: "/images/identity-center.svg"
 tags: [ "Cloud", "AWS", "Security" ]
 type: post
 showTableOfContents: true
@@ -52,6 +53,10 @@ O Identity Center tem dois tipos de instância:
 Para ter uma instância de organização, a conta precisa fazer parte do **AWS
 Organizations**. Mesmo com uma conta só, ela vira a *management account* de
 uma organização de uma conta.
+
+O login pelo AWS CLI fica assim:
+
+![Fluxo de login com o IAM Identity Center: o AWS CLI abre o portal no navegador, o login é feito com senha e MFA, o token é trocado por credenciais temporárias e as chamadas à AWS usam a role do permission set](/images/identity-center.svg)
 
 ## Passo 1: MFA no usuário root
 
@@ -239,15 +244,6 @@ aws iam delete-user --user-name meu-usuario-iam
 ```
 
 Por último, apague o `~/.aws/credentials`.
-
-## Um detalhe: domínio próprio para o portal
-
-Tentei criar um CNAME do meu domínio para o endereço `awsapps.com` do portal.
-Não funciona: a conexão HTTPS falha, porque o certificado do portal só vale
-para `*.awsapps.com`. Para usar um domínio próprio, é preciso um
-redirecionamento (por exemplo, um CloudFront que responde com 301 para o
-portal). O AWS CLI continua usando o endereço `awsapps.com` na
-`sso_start_url`.
 
 ## Conclusão
 
